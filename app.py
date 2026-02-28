@@ -5,9 +5,7 @@ from matcher import calculate_match, skill_analysis, section_analysis
 
 app = Flask(__name__)
 
-# -----------------------------
-# File Extraction Functions
-# -----------------------------
+
 
 def extract_pdf(file):
     text = ""
@@ -53,9 +51,6 @@ def extract_text(file):
         return ""
 
 
-# -----------------------------
-# Main Route
-# -----------------------------
 
 @app.route("/", methods=["GET", "POST"])
 def home():
@@ -76,13 +71,13 @@ def home():
             if resume_text.strip() == "":
                 continue
 
-            # Overall similarity score
+        
             overall_score = calculate_match(resume_text, jd_text)
 
-            # Skill analysis
+         
             skill_score, missing_skills = skill_analysis(resume_text, jd_text)
 
-            # Section analysis
+            
             sections = section_analysis(resume_text, jd_text)
 
             results.append({
@@ -93,17 +88,13 @@ def home():
                 "sections": sections
             })
 
-        # Sort resumes by overall score (highest first)
+
         results = sorted(results, key=lambda x: x["score"], reverse=True)
 
         return render_template("ranking.html", results=results)
 
     return render_template("index.html")
 
-
-# -----------------------------
-# Run App
-# -----------------------------
 
 if __name__ == "__main__":
     app.run(debug=True)

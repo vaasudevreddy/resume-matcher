@@ -5,7 +5,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 nlp = spacy.load("en_core_web_sm")
 
-# Clean text
+
 def clean_text(text):
     text = text.lower()
     text = re.sub(r'\n', ' ', text)
@@ -13,7 +13,6 @@ def clean_text(text):
     return text
 
 
-# Overall similarity
 def calculate_match(resume_text, jd_text):
     resume_clean = clean_text(resume_text)
     jd_clean = clean_text(jd_text)
@@ -25,13 +24,11 @@ def calculate_match(resume_text, jd_text):
     return round(similarity[0][0] * 100, 2)
 
 
-# Extract important keywords (skills proxy)
 def extract_keywords(text):
     doc = nlp(text.lower())
     return list(set([token.text for token in doc if token.pos_ in ["NOUN", "PROPN"]]))
 
 
-# Skill matching
 def skill_analysis(resume_text, jd_text):
     resume_skills = set(extract_keywords(resume_text))
     jd_skills = set(extract_keywords(jd_text))
@@ -47,7 +44,6 @@ def skill_analysis(resume_text, jd_text):
     return skill_score, list(missing)[:10]
 
 
-# Section scoring
 def section_analysis(resume_text, jd_text):
 
     sections = {
