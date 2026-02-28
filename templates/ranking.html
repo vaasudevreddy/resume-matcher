@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Advanced Resume Ranking</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #f4f6f9;
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
+        .top {
+            border-left: 6px solid green;
+        }
+
+        h3 {
+            margin: 0;
+        }
+
+        .score {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<h2>Advanced Resume Ranking</h2>
+
+{% for resume in results %}
+
+<div class="card {% if loop.index == 1 %}top{% endif %}">
+
+    <h3>Rank {{ loop.index }} — {{ resume.name }}</h3>
+
+    <p class="score">Overall Match: {{ resume.score }}%</p>
+    <p class="score">Skill Match: {{ resume.skill_score }}%</p>
+
+    <h4>Missing Skills:</h4>
+    <ul>
+        {% for skill in resume.missing %}
+        <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+
+    <h4>Section Scores:</h4>
+    <ul>
+        {% for section, score in resume.sections.items() %}
+        <li>{{ section.capitalize() }} — {{ score }}%</li>
+        {% endfor %}
+    </ul>
+
+</div>
+
+{% endfor %}
+
+<a href="/">Go Back</a>
+
+</body>
+</html>
